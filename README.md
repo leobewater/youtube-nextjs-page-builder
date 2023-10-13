@@ -14,6 +14,7 @@ Source Code: https://github.com/Kliton/yt_pageform/
 > npx shadcn-ui@latest init
 > npx shadcn-ui@latest add
 > npm install next-themes
+> npm i prisma --save-dev
 ```
 
 ## To Run
