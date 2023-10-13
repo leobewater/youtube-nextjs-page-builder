@@ -16,6 +16,9 @@ Source Code: https://github.com/Kliton/yt_pageform/
 > npm install next-themes
 > npm i prisma --save-dev
 > npx prisma init
+# set up schema.prisma
+> npx prisma migrate
+> npx prisma studio 
 ```
 
 ## To Run
