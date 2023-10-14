@@ -6,6 +6,7 @@ import { currentUser } from '@clerk/nextjs';
 
 class UserNotFoundErr extends Error {}
 
+// Get form stats
 export async function GetFormStats() {
   const user = await currentUser();
   if (!user) {
@@ -40,6 +41,7 @@ export async function GetFormStats() {
   };
 }
 
+// Save form to db
 export async function CreateForm(data: formSchemaType) {
   // validate form data
   const validation = formSchema.safeParse(data);
@@ -68,4 +70,21 @@ export async function CreateForm(data: formSchemaType) {
   }
 
   return form.id;
+}
+
+// Get all user's forms
+export async function GetForms() {
+  const user = await currentUser();
+  if (!user) {
+    throw new UserNotFoundErr();
+  }
+
+  return await prisma.form.findMany({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 }
