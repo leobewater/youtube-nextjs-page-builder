@@ -38,3 +38,8 @@ export async function GetFormStats() {
     bounceRate,
   };
 }
+
+export async function CreateForm(data: {
+  name: string;
+  description: string | undefined;
+}) {}

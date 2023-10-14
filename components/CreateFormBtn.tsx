@@ -23,18 +23,11 @@ import {
   FormMessage,
 } from './ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { toast } from './ui/use-toast';
-
-const formSchema = z.object({
-  name: z.string().min(4),
-  description: z.string().optional(),
-});
-
-type formSchemaType = z.infer<typeof formSchema>;
+import { formSchema, formSchemaType } from '@/schemas/form';
 
 const CreateFormBtn = () => {
   const form = useForm<formSchemaType>({
