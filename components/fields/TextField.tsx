@@ -9,6 +9,10 @@ import {
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import useDesigner from '../hooks/useDesigner';
 
 const type: ElementsType = 'TextField';
 
@@ -47,12 +51,44 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
+// set up zod form schema
+type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
+
 function PropertiesComponent({
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
 }) {
   const element = elementInstance as CustomInstance;
+  const { updateElement } = useDesigner();
+  const form = useForm<propertiesFormSchemaType>({
+    resolver: zodResolver(propertiesSchema),
+    mode: 'onBlur',
+    defaultValues: {
+      label: element.extraAttributes.label,
+      helperText: element.extraAttributes.helperText,
+      required: element.extraAttributes.required,
+      placeHolder: element.extraAttributes.placeHolder,
+    },
+  });
+
+  useEffect(() => {
+    form.reset(element.extraAttributes);
+  }, [element, form]);
+
+  function applyChanges(values: propertiesFormSchemaType) {
+    const { label, required, placeHolder, helperText } = values;
+
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        label,
+        helperText,
+        required,
+        placeHolder,
+      },
+    });
+  }
   const { label, required, placeHolder, helperText } = element.extraAttributes;
 
   return (
