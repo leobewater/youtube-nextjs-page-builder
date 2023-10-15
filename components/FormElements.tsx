@@ -18,7 +18,9 @@ export type FormElement = {
 
   formComponent: React.FC; // element form component
 
-  propertiesComponent: React.FC; // properties form for element's sidebar
+  propertiesComponent: React.FC<{
+    elementInstance: FormElementInstance;
+  }>; // properties form for element's sidebar
 };
 
 export type FormElementInstance = {

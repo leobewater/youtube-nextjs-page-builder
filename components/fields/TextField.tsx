@@ -31,13 +31,28 @@ export const TextFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: () => <div>Form Component</div>,
-  propertiesComponent: () => <div>Properties Component</div>,
+  propertiesComponent: PropertiesComponent,
 };
 
 // extend FormElementInstance with extraAttributes
 type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
+
+function PropertiesComponent({
+  elementInstance,
+}: {
+  elementInstance: FormElementInstance;
+}) {
+  const element = elementInstance as CustomInstance;
+  const { label, required, placeHolder, helperText } = element.extraAttributes;
+
+  return (
+    <div className="flex flex-col gap-2 w-full">
+      Form Properties for {label}
+    </div>
+  );
+}
 
 function DesignerComponent({
   elementInstance,

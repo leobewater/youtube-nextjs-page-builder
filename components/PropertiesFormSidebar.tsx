@@ -24,7 +24,7 @@ const PropertiesFormSidebar = () => {
           <AiOutlineClose />
         </Button>
       </div>
-      <PropertiesForm />
+      <PropertiesForm elementInstance={selectedElement} />
     </div>
   );
 };
