@@ -30,7 +30,7 @@ const Designer = () => {
     },
   });
 
-  console.log('Elements', elements);
+  //   console.log('Elements', elements);
 
   useDndMonitor({
     onDragEnd: (event: DragEndEvent) => {
@@ -40,7 +40,14 @@ const Designer = () => {
 
       // check if event is a designer btn element
       const isDesignerBtnElement = active.data?.current?.isDesignerBtnElement;
-      if (isDesignerBtnElement) {
+
+      const isDroppingOverDesignerDropArea =
+        over.data?.current?.isDesignerDropArea;
+      const droppingSidebarBtnOverDesignerDropArea =
+        isDesignerBtnElement && isDroppingOverDesignerDropArea;
+
+      // First dropping element scenario to dropzone
+      if (droppingSidebarBtnOverDesignerDropArea) {
         const type = active.data?.current?.type;
 
         // create a new instance of the element
@@ -48,10 +55,45 @@ const Designer = () => {
           idGenerator()
         );
 
-        // add new element to context api
-        addElement(0, newElement);
+        // add new element to context api to the bottom
+        addElement(elements.length, newElement);
 
-        console.log(newElement);
+        // console.log(newElement);
+        return;
+      }
+
+      const isDroppingOverDesignerElementTopHalf =
+        over.data?.current?.isTopHalfDesignerElement;
+      const isDroppingOverDesignerElementBottomHalf =
+        over.data?.current?.isBottomHalfDesignerElement;
+      const isDroppingOverDesignerElement =
+        isDroppingOverDesignerElementTopHalf ||
+        isDroppingOverDesignerElementBottomHalf;
+
+      const droppingSidebarBtnOverDesignerElement =
+        isDesignerBtnElement && isDroppingOverDesignerElement;
+
+      // Second dropping element scenario above or below existing element
+      if (droppingSidebarBtnOverDesignerElement) {
+        const type = active.data?.current?.type;
+
+        const newElement = FormElements[type as ElementsType].construct(
+          idGenerator()
+        );
+
+        const overId = over.data?.current?.elementId;
+        const overElementIndex = elements.findIndex((el) => el.id === overId);
+        if (overElementIndex === -1) {
+          throw new Error('element not found');
+        }
+
+        let indexForNewElement = overElementIndex; // assume it's top-half
+        if (isDroppingOverDesignerElementBottomHalf) {
+          indexForNewElement = overElementIndex + 1;
+        }
+
+        addElement(indexForNewElement, newElement);
+        return;
       }
     },
   });
@@ -131,7 +173,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
   // hide element itself when dragging
   if (draggable.isDragging) return null;
 
-//    console.log('SELECTED ELEMENT:', selectedElement);
+  //    console.log('SELECTED ELEMENT:', selectedElement);
 
   const DesignerElement = FormElements[element.type].designerComponent;
 
