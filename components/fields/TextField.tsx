@@ -8,6 +8,7 @@ import {
 } from '../FormElements';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
+import { z } from 'zod';
 
 const type: ElementsType = 'TextField';
 
@@ -17,6 +18,13 @@ const extraAttributes = {
   required: false,
   placeHolder: 'Value here...',
 };
+
+const propertiesSchema = z.object({
+  label: z.string().min(2).max(50),
+  helperText: z.string().max(200),
+  required: z.boolean().default(false),
+  placeHolder: z.string().max(50),
+});
 
 export const TextFieldFormElement: FormElement = {
   type,
