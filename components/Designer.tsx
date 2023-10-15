@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import DesignerSidebar from './DesignerSidebar';
 import { useDroppable } from '@dnd-kit/core';
 import { cn } from '@/lib/utils';
+import { FormElementInstance } from './FormElements';
 
 const Designer = () => {
   const droppable = useDroppable({
