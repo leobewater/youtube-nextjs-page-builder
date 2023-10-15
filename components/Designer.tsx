@@ -1,11 +1,19 @@
 'use client';
 
-import React from 'react'
+import React from 'react';
 
 const Designer = () => {
   return (
-    <div className='flex w-full h-full'>Designer</div>
-  )
-}
+    <div className="flex w-full h-full">
+      <div className="p-4 w-full">
+        <div className="bg-background max-w-[920px] h-full m-auto reounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto">
+          <p className="text-3xl text-muted-foreground flex flex-grow items-center font-bold">
+            Drop here
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default Designer
+export default Designer;
