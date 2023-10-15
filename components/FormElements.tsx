@@ -21,11 +21,15 @@ export type FormElement = {
   formComponent: React.FC<{
     elementInstance: FormElementInstance;
     submitValue?: SubmitFunction;
+    isInvalid?: boolean;
   }>; // element form component for form preview
 
   propertiesComponent: React.FC<{
     elementInstance: FormElementInstance;
   }>; // properties form for element's sidebar
+
+  // validate form field 
+  validate: (formElement: FormElementInstance, currentValue: string) => boolean;
 };
 
 export type FormElementInstance = {

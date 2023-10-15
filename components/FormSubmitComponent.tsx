@@ -17,7 +17,9 @@ const FormSubmitComponent = ({
     formValues.current[key] = value;
   }, []);
 
-  const submitForm = () => {};
+  const submitForm = () => {
+    console.log('Form Values:', formValues.current);
+  };
 
   return (
     <div className="flex justify-center w-full h-full items-center p-8">

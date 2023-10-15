@@ -55,6 +55,18 @@ export const TextFieldFormElement: FormElement = {
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
   propertiesComponent: PropertiesComponent,
+
+  // text field validation
+  validate: (
+    formElement: FormElementInstance,
+    currentValue: string
+  ): boolean => {
+    const element = formElement as CustomInstance;
+    if (element.extraAttributes.required) {
+      return currentValue.length > 0;
+    }
+    return true;
+  },
 };
 
 // extend FormElementInstance with extraAttributes
@@ -244,7 +256,7 @@ function FormComponent({
       </Label>
       <Input
         placeholder={placeHolder}
-        onChange={(e) => setValue(e.target.validationMessage)}
+        onChange={(e) => setValue(e.target.value)}
         onBlur={(e) => {
           if (!submitValue) return;
           submitValue(element.id, e.target.value);
