@@ -44,7 +44,7 @@ const FormBuilder = ({ form }: { form: Form }) => {
     setElements(elements);
     const readyTimeout = setTimeout(() => setIsReady(true), 500);
     return () => clearTimeout(readyTimeout);
-  }, [form, setElements]);
+  }, [isReady, form, setElements]);
 
   if (!isReady) {
     return (
