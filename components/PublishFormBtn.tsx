@@ -15,9 +15,11 @@ import {
 import { FaIcons } from 'react-icons/fa';
 import { toast } from './ui/use-toast';
 import { PublishForm } from '@/actions/form';
+import { useRouter } from 'next/navigation';
 
 const PublishFormBtn = ({ id }: { id: number }) => {
   const [loading, startTransition] = useTransition();
+  const router = useRouter();
 
   async function publishForm() {
     try {
@@ -26,6 +28,7 @@ const PublishFormBtn = ({ id }: { id: number }) => {
         title: 'Success',
         description: 'Your form is now available to the public',
       });
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Error',
@@ -47,6 +50,7 @@ const PublishFormBtn = ({ id }: { id: number }) => {
           <AlertDialogDescription>
             This action cannot be undone. After publishing you will not be able
             to edit this form.
+            <br />
             <br />
             <span className="font-medium">
               By publishing this form you will make it available to the public
