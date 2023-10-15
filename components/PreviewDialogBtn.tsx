@@ -5,7 +5,7 @@ import useDesigner from './hooks/useDesigner';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import { FormElements } from './FormElements';
 
-export const PreviewDialogBtn = () => {
+const PreviewDialogBtn = () => {
   const { elements } = useDesigner();
 
   return (
@@ -40,3 +40,5 @@ export const PreviewDialogBtn = () => {
     </Dialog>
   );
 };
+
+export default PreviewDialogBtn;
