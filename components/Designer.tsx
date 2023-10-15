@@ -20,7 +20,8 @@ import { Button } from './ui/button';
 import { BiSolidTrash } from 'react-icons/bi';
 
 const Designer = () => {
-  const { elements, addElement } = useDesigner();
+  const { elements, addElement, selectedElement, setSelectedElement } =
+    useDesigner();
 
   const droppable = useDroppable({
     id: 'designer-drop-area',
@@ -57,7 +58,12 @@ const Designer = () => {
 
   return (
     <div className="flex w-full h-full">
-      <div className="p-4 w-full">
+      <div
+        className="p-4 w-full"
+        onClick={() => {
+          if (selectedElement) setSelectedElement(null);
+        }}
+      >
         <div
           ref={droppable.setNodeRef}
           className={cn(
@@ -125,7 +131,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
   // hide element itself when dragging
   if (draggable.isDragging) return null;
 
-//   console.log('SELECTED ELEMENT:', selectedElement);
+//    console.log('SELECTED ELEMENT:', selectedElement);
 
   const DesignerElement = FormElements[element.type].designerComponent;
 
