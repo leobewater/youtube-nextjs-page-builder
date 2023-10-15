@@ -5,8 +5,11 @@ import DesignerSidebar from './DesignerSidebar';
 import { useDroppable } from '@dnd-kit/core';
 import { cn } from '@/lib/utils';
 import { FormElementInstance } from './FormElements';
+import useDesigner from './hooks/useDesigner';
 
 const Designer = () => {
+  const { elements, addElement } = useDesigner();
+
   const droppable = useDroppable({
     id: 'designer-drop-area',
     data: {
