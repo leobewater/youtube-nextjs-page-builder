@@ -16,7 +16,9 @@ export type FormElement = {
     elementInstance: FormElementInstance;
   }>; // component showing on designer
 
-  formComponent: React.FC; // element form component
+  formComponent: React.FC<{
+    elementInstance: FormElementInstance;
+  }>; // element form component for form preview
 
   propertiesComponent: React.FC<{
     elementInstance: FormElementInstance;
