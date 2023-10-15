@@ -148,8 +148,8 @@ const Designer = () => {
         <div
           ref={droppable.setNodeRef}
           className={cn(
-            'bg-background max-w-[920px] h-full m-auto reounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto',
-            droppable.isOver && 'ring-2 ring-primary ring-inset'
+            'bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto',
+            droppable.isOver && 'ring-4 ring-primary ring-inset'
           )}
         >
           {!droppable.isOver && elements.length === 0 && (
@@ -249,7 +249,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
               className="flex justify-center h-full border rounded-md rounded-l-none bg-red-500"
               variant={'outline'}
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation(); // avoid selection of element while deleting
                 removeElement(element.id);
               }}
             >
