@@ -3,7 +3,7 @@ import FormBuilder from '@/components/FormBuilder';
 import VisitBtn from '@/components/VisitBtn';
 import React from 'react';
 
-async function BuilderPage({ params }: { params: { id: string } }) {
+async function FormDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const form = await GetFormById(Number(id));
   if (!form) {
@@ -31,4 +31,4 @@ async function BuilderPage({ params }: { params: { id: string } }) {
   );
 }
 
-export default BuilderPage;
+export default FormDetailPage;
