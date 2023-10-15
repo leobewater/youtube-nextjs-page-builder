@@ -28,9 +28,9 @@ type FormElementsType = {
   [key in ElementsType]: FormElement;
 };
 
-export const FormElement: FormElementsType = {
+export const FormElements: FormElementsType = {
   TextField: TextFieldFormElement,
 };
 
 // Setting all these up so we can do this with type hint
-//FormElement['TextField'].designerBtnElement
+//FormElements['TextField'].designerBtnElement
