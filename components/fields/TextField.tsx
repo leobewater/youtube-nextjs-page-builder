@@ -13,6 +13,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import useDesigner from '../hooks/useDesigner';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '../ui/form';
 
 const type: ElementsType = 'TextField';
 
@@ -89,12 +98,35 @@ function PropertiesComponent({
       },
     });
   }
-  const { label, required, placeHolder, helperText } = element.extraAttributes;
 
   return (
-    <div className="flex flex-col gap-2 w-full">
-      Form Properties for {label}
-    </div>
+    <Form {...form}>
+      <form
+        onBlur={form.handleSubmit(applyChanges)}
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        className="space-y-3"
+      >
+        <FormField
+          control={form.control}
+          name="label"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Label</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>
+                The label of the field. <br /> It will be displayed above the
+                field
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   );
 }
 
