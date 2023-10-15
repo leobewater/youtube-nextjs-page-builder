@@ -92,7 +92,7 @@ const Designer = () => {
 };
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-  const { removeElement } = useDesigner();
+  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
   const topHalf = useDroppable({
@@ -125,6 +125,8 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
   // hide element itself when dragging
   if (draggable.isDragging) return null;
 
+//   console.log('SELECTED ELEMENT:', selectedElement);
+
   const DesignerElement = FormElements[element.type].designerComponent;
 
   return (
@@ -138,6 +140,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       }}
       onMouseLeave={() => {
         setMouseIsOver(false);
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedElement(element);
       }}
     >
       <div
@@ -155,7 +161,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             <Button
               className="flex justify-center h-full border rounded-md rounded-l-none bg-red-500"
               variant={'outline'}
-              onClick={() => removeElement(element.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                removeElement(element.id);
+              }}
             >
               <BiSolidTrash className="h-6 w-6" />
             </Button>
