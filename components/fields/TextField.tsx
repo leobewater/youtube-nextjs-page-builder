@@ -238,7 +238,7 @@ function FormComponent({
         {label}
         {required && '*'}
       </Label>
-      <Input readOnly disabled placeholder={placeHolder} />
+      <Input placeholder={placeHolder} />
       {helperText && (
         <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
       )}
