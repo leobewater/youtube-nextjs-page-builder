@@ -115,7 +115,13 @@ function PropertiesComponent({
             <FormItem>
               <FormLabel>Label</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  // press enter to trigger blur which saves the changes
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur();
+                  }}
+                />
               </FormControl>
               <FormDescription>
                 The label of the field. <br /> It will be displayed above the
