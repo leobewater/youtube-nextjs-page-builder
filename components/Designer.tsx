@@ -20,8 +20,13 @@ import { Button } from './ui/button';
 import { BiSolidTrash } from 'react-icons/bi';
 
 const Designer = () => {
-  const { elements, addElement, selectedElement, setSelectedElement } =
-    useDesigner();
+  const {
+    elements,
+    addElement,
+    removeElement,
+    selectedElement,
+    setSelectedElement,
+  } = useDesigner();
 
   const droppable = useDroppable({
     id: 'designer-drop-area',
@@ -95,6 +100,40 @@ const Designer = () => {
         addElement(indexForNewElement, newElement);
         return;
       }
+
+      // Third scenario sort/order existing element
+      const isDraggingDesignerElement = active.data?.current?.isDesignerElement;
+
+      const draggingDesignerElementOverAnotherDesignerElement =
+        isDroppingOverDesignerElement && isDraggingDesignerElement;
+
+      if (draggingDesignerElementOverAnotherDesignerElement) {
+        // find index of active element and over element
+        const activeId = active.data?.current?.elementId;
+        const overId = over.data?.current?.elementId;
+
+        const activeElementIndex = elements.findIndex(
+          (el) => el.id === activeId
+        );
+        const overElementIndex = elements.findIndex((el) => el.id === overId);
+
+        if (activeElementIndex === -1 || overElementIndex === -1) {
+          throw new Error('element not found');
+        }
+
+        // get the acitve element from the elements array
+        const activeElement = { ...elements[activeElementIndex] };
+        // remove it from the elements array
+        removeElement(activeId);
+
+        let indexForNewElement = overElementIndex; // assume it's top-half
+        if (isDroppingOverDesignerElementBottomHalf) {
+          indexForNewElement = overElementIndex + 1;
+        }
+
+        addElement(indexForNewElement, activeElement);
+        return;
+      }
     },
   });
 
@@ -110,7 +149,7 @@ const Designer = () => {
           ref={droppable.setNodeRef}
           className={cn(
             'bg-background max-w-[920px] h-full m-auto reounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto',
-            droppable.isOver && 'ring-2 ring-primary'
+            droppable.isOver && 'ring-2 ring-primary ring-inset'
           )}
         >
           {!droppable.isOver && elements.length === 0 && (
