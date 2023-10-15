@@ -9,17 +9,19 @@ import {
 
 const type: ElementsType = 'TextField';
 
+const extraAttributes = {
+  label: 'Text field',
+  helperText: 'Helper text',
+  required: false,
+  placeHolder: 'Value here...',
+};
+
 export const TextFieldFormElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
     type,
-    extraAttributes: {
-      label: 'Text field',
-      helperText: 'Helper text',
-      required: false,
-      placeHolder: 'Value here...',
-    },
+    extraAttributes,
   }),
   designerBtnElement: {
     icon: MdTextFields,
@@ -30,12 +32,18 @@ export const TextFieldFormElement: FormElement = {
   propertiesComponent: () => <div>Properties Component</div>,
 };
 
+// extend FormElementInstance with extraAttributes
+type CustomInstance = FormElementInstance & {
+  extraAttributes: typeof extraAttributes;
+};
+
 function DesignerComponent({
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
 }) {
-  return (
-    <div className="text-white">{elementInstance.extraAttributes?.label}</div>
-  );
+  // use CustomInstance instead
+  const element = elementInstance as CustomInstance;
+
+  return <div className="text-white">{element.extraAttributes?.label}</div>;
 }
