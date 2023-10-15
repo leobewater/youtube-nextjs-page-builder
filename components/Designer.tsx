@@ -10,6 +10,9 @@ import {
   FormElements,
 } from './FormElements';
 import { idGenerator } from '@/lib/idGenerator';
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { BiSolidTrash } from 'react-icons/bi';
 
 const Designer = () => {
   const { elements, addElement } = useDesigner();
@@ -84,6 +87,9 @@ const Designer = () => {
 };
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
+  const { removeElement } = useDesigner();
+  const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
+
   const topHalf = useDroppable({
     id: element.id + '-top',
     data: {
@@ -104,15 +110,42 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
   const DesignerElement = FormElements[element.type].designerComponent;
   return (
-    <div className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset">
+    <div
+      className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+      onMouseEnter={() => {
+        setMouseIsOver(true);
+      }}
+      onMouseLeave={() => {
+        setMouseIsOver(false);
+      }}
+    >
       <div
         ref={topHalf.setNodeRef}
         className="absolute w-full h-1/2 rounded-t-md"
       ></div>
       <div
         ref={bottomHalf.setNodeRef}
-        className="absolute  w-full bottom-0 h-1/2 rounded-b-md"
+        className="absolute w-full bottom-0 h-1/2 rounded-b-md"
       ></div>
+
+      {mouseIsOver && (
+        <>
+          <div className="absolute right-0 h-full">
+            <Button
+              className="flex justify-center h-full border rounded-md rounded-l-none bg-red-500"
+              variant={'outline'}
+              onClick={() => removeElement(element.id)}
+            >
+              <BiSolidTrash className="h-6 w-6" />
+            </Button>
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
+            <p className="text-muted-foreground text-sm">
+              Click for properties or drag to move
+            </p>
+          </div>
+        </>
+      )}
 
       <div className="flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none">
         <DesignerElement elementInstance={element} />
