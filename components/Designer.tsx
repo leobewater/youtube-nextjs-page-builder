@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import DesignerSidebar from './DesignerSidebar';
 
 const Designer = () => {
   return (
@@ -12,6 +13,7 @@ const Designer = () => {
           </p>
         </div>
       </div>
+      <DesignerSidebar />
     </div>
   );
 };
