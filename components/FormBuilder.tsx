@@ -38,6 +38,8 @@ const FormBuilder = ({ form }: { form: Form }) => {
   const sensors = useSensors(mouseSensor, touchSensor);
 
   useEffect(() => {
+    if (isReady) return;
+
     const elements = JSON.parse(form.content);
     setElements(elements);
     const readyTimeout = setTimeout(() => setIsReady(true), 500);
