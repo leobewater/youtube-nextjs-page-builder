@@ -13,11 +13,31 @@ const FormSubmitComponent = ({
 }) => {
   const formValues = useRef<{ [key: string]: string }>({});
 
+  // validate form when submit and store errors
+  const formErrors = useRef<{ [key: string]: boolean }>({});
+  const validateForm: () => boolean = useCallback(() => {
+    for (const field of content) {
+      const actualValue = formValues.current[field.id] || '';
+      const valid = FormElements[field.type].validate(field, actualValue);
+      if (!valid) {
+        formErrors.current[field.id] = true;
+      }
+    }
+    // check total invalid errors length
+    if (Object.keys(formErrors.current).length > 0) {
+      return false;
+    }
+
+    return true;
+  }, [content]);
+
   const submitValue = useCallback((key: string, value: string) => {
     formValues.current[key] = value;
   }, []);
 
   const submitForm = () => {
+    formErrors.current = {};
+    const validForm = validateForm();
     console.log('Form Values:', formValues.current);
   };
 
@@ -31,6 +51,7 @@ const FormSubmitComponent = ({
               key={element.id}
               elementInstance={element}
               submitValue={submitValue}
+              isInvalid={formErrors.current[element.id]}
             />
           );
         })}
