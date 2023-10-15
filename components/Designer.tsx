@@ -4,7 +4,7 @@ import React from 'react'
 
 const Designer = () => {
   return (
-    <div>Designer</div>
+    <div className='flex w-full h-full'>Designer</div>
   )
 }
 

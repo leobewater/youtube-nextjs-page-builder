@@ -22,6 +22,7 @@ Source Code: https://github.com/Kliton/yt_pageform/
 > npx prisma studio
 > npx prisma db push
 > npm i -D react-icons 
+> npm install @dnd-kit/core
 ```
 
 ## To Run
