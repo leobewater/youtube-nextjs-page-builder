@@ -16,7 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatDistance } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 
 async function FormDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -47,7 +49,7 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
           <FormLinkShare shareUrl={form.shareURL} />
         </div>
       </div>
-      <div className="w-full pt-8 gap-4 grid grid-col-1 md:grid-cols-2 lg:grid-cols-4 container">
+      <div className="w-full pt-8 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 container">
         <StatsCard
           title="Total visits"
           icon={<LuView className="text-blue-600" />}
@@ -79,14 +81,14 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
           title="Bounce rate"
           icon={<TbArrowBounce className="text-red-600" />}
           helperText="Visits that leaves without interactions"
-          value={visits.toLocaleString() + '%' || ''}
+          value={bounceRate.toLocaleString() + '%' || ''}
           loading={false}
           className="shadow-md shadow-red-600"
         />
       </div>
 
       <div className="container pt-10">
-        <SubmissionTable id={form.id} />
+        <SubmissionsTable id={form.id} />
       </div>
     </>
   );
@@ -99,7 +101,7 @@ type Row = { [key: string]: string } & {
   submittedAt: Date;
 };
 
-async function SubmissionTable({ id }: { id: number }) {
+async function SubmissionsTable({ id }: { id: number }) {
   const form = await GetFormWithSubmissions(id);
   if (!form) {
     throw new Error('form not found');
@@ -189,6 +191,18 @@ async function SubmissionTable({ id }: { id: number }) {
 
 function RowCell({ type, value }: { type: ElementsType; value: string }) {
   let node: ReactNode = value;
+
+  switch (type) {
+    case 'DateField':
+      if (!value) break;
+      const date = new Date(value);
+      node = <Badge variant={'outline'}>{format(date, 'dd/MM/yyyy')}</Badge>;
+      break;
+    case 'CheckboxField':
+      const checked = value === 'true';
+      node = <Checkbox checked={checked} disabled />;
+      break;
+  }
 
   return <TableCell>{node}</TableCell>;
 }
