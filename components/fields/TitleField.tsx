@@ -57,8 +57,6 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
-
-
 function DesignerComponent({
   elementInstance,
 }: {
@@ -70,7 +68,7 @@ function DesignerComponent({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label className="text-muted-foreground">Title field</Label>
+      <Label className="text-muted-foreground">Title</Label>
       <p className="text-xl">{title}</p>
     </div>
   );
