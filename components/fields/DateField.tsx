@@ -162,11 +162,11 @@ function FormComponent({
               if (!submitValue) return;
               const value = date?.toUTCString() || '';
               const valid = DateFieldFormElement.validate(element, value);
-              setError(valid);
+              setError(!valid);
               submitValue(element.id, value);
             }}
             initialFocus
-          ></Calendar>
+          />
         </PopoverContent>
       </Popover>
       {helperText && (
