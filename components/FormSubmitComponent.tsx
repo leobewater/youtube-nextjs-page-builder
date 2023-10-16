@@ -2,7 +2,8 @@
 import { HiCursorClick } from 'react-icons/hi';
 import { FormElementInstance, FormElements } from './FormElements';
 import { Button } from './ui/button';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import { toast } from './ui/use-toast';
 
 const FormSubmitComponent = ({
   formUrl,
@@ -12,9 +13,10 @@ const FormSubmitComponent = ({
   content: FormElementInstance[];
 }) => {
   const formValues = useRef<{ [key: string]: string }>({});
-
   // validate form when submit and store errors
   const formErrors = useRef<{ [key: string]: boolean }>({});
+  const [renderKey, setRenderKey] = useState(new Date().getTime());
+
   const validateForm: () => boolean = useCallback(() => {
     for (const field of content) {
       const actualValue = formValues.current[field.id] || '';
@@ -37,13 +39,27 @@ const FormSubmitComponent = ({
 
   const submitForm = () => {
     formErrors.current = {};
-    const validForm = validateForm();
     console.log('Form Values:', formValues.current);
+    const validForm = validateForm();
+    if (!validForm) {
+      setRenderKey(new Date().getTime());
+
+      toast({
+        title: 'Error',
+        description: 'please check the form for error',
+        variant: 'destructive',
+      });
+
+      return;
+    }
   };
 
   return (
     <div className="flex justify-center w-full h-full items-center p-8">
-      <div className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded">
+      <div
+        key={renderKey}
+        className="max-w-[620px] flex flex-col gap-4 flex-grow bg-background w-full p-8 overflow-y-auto border shadow-xl shadow-blue-700 rounded"
+      >
         {content.map((element) => {
           const FormElement = FormElements[element.type].formComponent;
           return (
@@ -52,6 +68,7 @@ const FormSubmitComponent = ({
               elementInstance={element}
               submitValue={submitValue}
               isInvalid={formErrors.current[element.id]}
+              defaultValue={formValues.current[element.id]}
             />
           );
         })}

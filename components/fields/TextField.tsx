@@ -241,10 +241,12 @@ function FormComponent({
   elementInstance,
   submitValue,
   isInvalid,
+  defaultValue,
 }: {
   elementInstance: FormElementInstance;
   submitValue?: SubmitFunction;
   isInvalid?: boolean;
+  defaultValue?: string;
 }) {
   // use CustomInstance instead
   const element = elementInstance as CustomInstance;

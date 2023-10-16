@@ -22,13 +22,14 @@ export type FormElement = {
     elementInstance: FormElementInstance;
     submitValue?: SubmitFunction;
     isInvalid?: boolean;
+    defaultValue?: string;
   }>; // element form component for form preview
 
   propertiesComponent: React.FC<{
     elementInstance: FormElementInstance;
   }>; // properties form for element's sidebar
 
-  // validate form field 
+  // validate form field
   validate: (formElement: FormElementInstance, currentValue: string) => boolean;
 };
 
