@@ -1,4 +1,3 @@
-import React from 'react';
 import SidebarBtnElement from './SidebarBtnElement';
 import { FormElements } from './FormElements';
 import { Separator } from './ui/separator';
@@ -21,6 +20,7 @@ const FormElementsSidebar = () => {
         <p className={style}>Form Elements</p>
         <SidebarBtnElement formElement={FormElements.TextField} />
         <SidebarBtnElement formElement={FormElements.NumberField} />
+        <SidebarBtnElement formElement={FormElements.TextareaField} />
       </div>
     </div>
   );
