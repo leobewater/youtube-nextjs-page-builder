@@ -21,19 +21,19 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import { LuHeading1 } from 'react-icons/lu';
+import { LuHeading2 } from 'react-icons/lu';
 
-const type: ElementsType = 'TitleField';
+const type: ElementsType = 'SubtitleField';
 
 const extraAttributes = {
-  title: 'Title Field',
+  title: 'Subtitle Field',
 };
 
 const propertiesSchema = z.object({
   title: z.string().min(2).max(50),
 });
 
-export const TitleFieldFormElement: FormElement = {
+export const SubtitleFieldFormElement: FormElement = {
   type,
   construct: (id: string) => ({
     id,
@@ -41,8 +41,8 @@ export const TitleFieldFormElement: FormElement = {
     extraAttributes,
   }),
   designerBtnElement: {
-    icon: LuHeading1,
-    label: 'Title Field',
+    icon: LuHeading2,
+    label: 'Subtitle Field',
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -57,8 +57,6 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
-
-
 function DesignerComponent({
   elementInstance,
 }: {
@@ -70,8 +68,8 @@ function DesignerComponent({
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label className="text-muted-foreground">Title field</Label>
-      <p className="text-xl">{title}</p>
+      <Label className="text-muted-foreground">Subtitle</Label>
+      <p className="text-lg">{title}</p>
     </div>
   );
 }
@@ -85,7 +83,7 @@ function FormComponent({
   const element = elementInstance as CustomInstance;
 
   const { title } = element.extraAttributes;
-  return <p className="text-xl">{title}</p>;
+  return <p className="text-lg">{title}</p>;
 }
 
 // set up zod form schema
