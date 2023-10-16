@@ -251,7 +251,7 @@ function FormComponent({
   // use CustomInstance instead
   const element = elementInstance as CustomInstance;
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(defaultValue || '');
   const [error, setError] = useState(false);
 
   useEffect(() => {
