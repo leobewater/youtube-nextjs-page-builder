@@ -175,6 +175,7 @@ export async function SubmitForm(formUrl: string, content: string) {
     },
     where: {
       shareURL: formUrl,
+      published: true,
     },
   });
 }
