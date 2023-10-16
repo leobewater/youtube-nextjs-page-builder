@@ -1,3 +1,4 @@
+import { DateFieldFormElement } from './fields/DateField';
 import { NumberFieldFormElement } from './fields/NumberField';
 import { ParagraphFieldFormElement } from './fields/ParagraphField';
 import { SeparatorFieldFormElement } from './fields/SeparatorField';
@@ -69,6 +70,7 @@ export const FormElements: FormElementsType = {
   SpacerField: SpacerFieldFormElement,
   NumberField: NumberFieldFormElement,
   TextareaField: TextareaFieldFormElement,
+  DateField: DateFieldFormElement,
 };
 
 // Setting all these up so we can do this with type hint
