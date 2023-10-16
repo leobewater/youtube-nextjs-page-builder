@@ -20,6 +20,7 @@ const FormElementsSidebar = () => {
 
         <p className={style}>Form Elements</p>
         <SidebarBtnElement formElement={FormElements.TextField} />
+        <SidebarBtnElement formElement={FormElements.NumberField} />
       </div>
     </div>
   );
