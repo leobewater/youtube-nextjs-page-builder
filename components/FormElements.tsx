@@ -1,4 +1,5 @@
 import { ParagraphFieldFormElement } from './fields/ParagraphField';
+import { SeparatorFieldFormElement } from './fields/SeparatorField';
 import { SubtitleFieldFormElement } from './fields/SubtitleField';
 import { TextFieldFormElement } from './fields/TextField';
 import { TitleFieldFormElement } from './fields/TitleField';
@@ -7,7 +8,8 @@ export type ElementsType =
   | 'TextField'
   | 'TitleField'
   | 'SubtitleField'
-  | 'ParagraphField';
+  | 'ParagraphField'
+  | 'SeparatorField';
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -56,6 +58,7 @@ export const FormElements: FormElementsType = {
   TitleField: TitleFieldFormElement,
   SubtitleField: SubtitleFieldFormElement,
   ParagraphField: ParagraphFieldFormElement,
+  SeparatorField: SeparatorFieldFormElement,
 };
 
 // Setting all these up so we can do this with type hint
