@@ -14,6 +14,7 @@ const FormElementsSidebar = () => {
         <p className={style}>Layout Elements</p>
         <SidebarBtnElement formElement={FormElements.TitleField} />
         <SidebarBtnElement formElement={FormElements.SubtitleField} />
+        <SidebarBtnElement formElement={FormElements.ParagraphField} />
 
         <p className={style}>Form Elements</p>
         <SidebarBtnElement formElement={FormElements.TextField} />
