@@ -1,3 +1,4 @@
+import { CheckboxFieldFormElement } from './fields/CheckboxField';
 import { DateFieldFormElement } from './fields/DateField';
 import { NumberFieldFormElement } from './fields/NumberField';
 import { ParagraphFieldFormElement } from './fields/ParagraphField';
@@ -19,7 +20,8 @@ export type ElementsType =
   | 'NumberField'
   | 'TextareaField'
   | 'DateField'
-  | 'SelectField';
+  | 'SelectField'
+  | 'CheckboxField';
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -74,6 +76,7 @@ export const FormElements: FormElementsType = {
   TextareaField: TextareaFieldFormElement,
   DateField: DateFieldFormElement,
   SelectField: SelectFieldFormElement,
+  CheckboxField: CheckboxFieldFormElement,
 };
 
 // Setting all these up so we can do this with type hint
