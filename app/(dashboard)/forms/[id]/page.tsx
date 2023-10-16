@@ -1,12 +1,22 @@
-import { GetFormById } from '@/actions/form';
+import { GetFormById, GetFormWithSubmissions } from '@/actions/form';
 import FormLinkShare from '@/components/FormLinkShare';
 import VisitBtn from '@/components/VisitBtn';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StatsCard } from '../../page';
 import { LuView } from 'react-icons/lu';
 import { FaWpforms } from 'react-icons/fa';
 import { HiCursorClick } from 'react-icons/hi';
 import { TbArrowBounce } from 'react-icons/tb';
+import { ElementsType, FormElementInstance } from '@/components/FormElements';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { formatDistance } from 'date-fns';
 
 async function FormDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -84,10 +94,96 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
 
 export default FormDetailPage;
 
-function SubmissionTable({ id }: { id: number }) {
+// row type is a key value pair with extending a submittedAt date property
+type Row = { [key: string]: string } & {
+  submittedAt: Date;
+};
+
+async function SubmissionTable({ id }: { id: number }) {
+  const form = await GetFormWithSubmissions(id);
+  if (!form) {
+    throw new Error('form not found');
+  }
+
+  const formElements = JSON.parse(form.content) as FormElementInstance[];
+
+  // set columns type
+  const columns: {
+    id: string;
+    label: string;
+    required: boolean;
+    type: ElementsType;
+  }[] = [];
+
+  // iterate form elements and set values
+  formElements.forEach((element) => {
+    switch (element.type) {
+      case 'TextField':
+        columns.push({
+          id: element.id,
+          label: element.extraAttributes?.label,
+          required: element.extraAttributes?.required,
+          type: element.type,
+        });
+        break;
+      default:
+        break;
+    }
+  });
+
+  // get form submissions records and add to rows array
+  const rows: Row[] = [];
+  form.FormSubmissions.forEach((submission) => {
+    const content = JSON.parse(submission.content);
+    rows.push({
+      ...content,
+      submittedAt: submission.createdAt,
+    });
+  });
+
   return (
     <>
       <h1 className="text-2xl font-bold my-4">Submissions</h1>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {columns.map((column) => (
+                <TableHead key={column.id} className="uppercase">
+                  {column.label}
+                </TableHead>
+              ))}
+              <TableHead className="text-muted-foreground text-right uppercase">
+                Submitted At
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row, index) => (
+              <TableRow key={index}>
+                {columns.map((column) => (
+                  <RowCell
+                    key={column.id}
+                    type={column.type}
+                    value={row[column.id]}
+                  />
+                ))}
+                <TableCell className="text-muted-foreground text-right">
+                  {formatDistance(row.submittedAt, new Date(), {
+                    addSuffix: true,
+                  })}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </>
   );
+}
+
+function RowCell({ type, value }: { type: ElementsType; value: string }) {
+  let node: ReactNode = value;
+
+  return <TableCell>{node}</TableCell>;
 }
