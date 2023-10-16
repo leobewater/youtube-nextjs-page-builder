@@ -16,6 +16,7 @@ const FormElementsSidebar = () => {
         <SidebarBtnElement formElement={FormElements.SubtitleField} />
         <SidebarBtnElement formElement={FormElements.ParagraphField} />
         <SidebarBtnElement formElement={FormElements.SeparatorField} />
+        <SidebarBtnElement formElement={FormElements.SpacerField} />
 
         <p className={style}>Form Elements</p>
         <SidebarBtnElement formElement={FormElements.TextField} />
